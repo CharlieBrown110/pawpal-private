@@ -1,17 +1,17 @@
-import { dataURItoBlob, extractPublicIds } from '@/Utils/blog';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { toast } from 'sonner';
-import axios from 'axios';
+import { dataURItoBlob, extractPublicIds } from "@/Utils/blog";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "sonner";
+import axios from "axios";
 
 export const getFeaturedBlogs = createAsyncThunk(
-  'blog/getFeaturedBlogs',
+  "blog/getFeaturedBlogs",
   async ({ userId }, thunkAPI) => {
     try {
       const response = await axios.get(
-        'https://www.pawpalbd.com/api/user/blog/feature',
+        "https://www.pawpalbd.com/api/user/blog/feature",
         { params: { userId } }
       );
-      console.log(response.data, 'response.data');
+      console.log(response.data, "response.data");
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -19,14 +19,14 @@ export const getFeaturedBlogs = createAsyncThunk(
   }
 );
 export const toggleFeaturedBlog = createAsyncThunk(
-  'blog/toggleFeaturedBlog',
+  "blog/toggleFeaturedBlog",
   async ({ blogId }, thunkAPI) => {
     try {
       const response = await axios.patch(
-        'https://www.pawpalbd.com/api/user/blog/feature',
+        "https://www.pawpalbd.com/api/user/blog/feature",
         { blogId }
       );
-      console.log(response.data, 'response.data');
+      console.log(response.data, "response.data");
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -35,24 +35,25 @@ export const toggleFeaturedBlog = createAsyncThunk(
 );
 
 export const getEverySingleBlogs = createAsyncThunk(
-  'blog/getEverySingleBlog', async (_ , thunkAPI) => {
+  "blog/getEverySingleBlog",
+  async (_, thunkAPI) => {
     try {
       const response = await axios.get(
-        'https://www.pawpalbd.com/api/user/blog/getAllBlogs',
+        "https://www.pawpalbd.com/api/user/blog/getAllBlogs"
       );
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
   }
-)
+);
 
 export const getBlogs = createAsyncThunk(
-  'blog/getBlogs',
+  "blog/getBlogs",
   async ({ userId }, thunkAPI) => {
     try {
       const response = await axios.get(
-        'https://www.pawpalbd.com/api/user/blog/',
+        "https://www.pawpalbd.com/api/user/blog/",
         { params: { userId } }
       );
       return response.data;
@@ -63,12 +64,12 @@ export const getBlogs = createAsyncThunk(
 );
 
 export const getSpecificBlogs = createAsyncThunk(
-  'blog/getSpecificBlogs',
+  "blog/getSpecificBlogs",
   async ({ type }, thunkAPI) => {
     try {
-      console.log('inside getSpecificBlogs....');
+      console.log("inside getSpecificBlogs....");
       const response = await axios.get(
-        'https://www.pawpalbd.com/api/user/blog/type',
+        "https://www.pawpalbd.com/api/user/blog/type",
         {
           params: { type },
         }
@@ -81,12 +82,12 @@ export const getSpecificBlogs = createAsyncThunk(
 );
 
 export const deleteBlogPost = createAsyncThunk(
-  'blog/deleteBlogPost',
+  "blog/deleteBlogPost",
   async ({ blogId }, thunkAPI) => {
-    console.log(blogId, 'delete');
+    console.log(blogId, "delete");
     try {
       const response = await axios.delete(
-        'https://www.pawpalbd.com/api/user/blog/',
+        "https://www.pawpalbd.com/api/user/blog/",
         {
           params: { blogId },
         }
@@ -99,7 +100,7 @@ export const deleteBlogPost = createAsyncThunk(
 );
 
 export const updateBlogPost = createAsyncThunk(
-  'blog/updateBlogPost',
+  "blog/updateBlogPost",
   async ({ newContentJson, oldContentJson, blogId }, thunkAPI) => {
     try {
       const base64Images = [];
@@ -114,7 +115,7 @@ export const updateBlogPost = createAsyncThunk(
         }
       });
       const findBase64Images = (node) => {
-        if (node.type === 'image' && node.attrs?.src?.startsWith('data:')) {
+        if (node.type === "image" && node.attrs?.src?.startsWith("data:")) {
           base64Images.push({ node, blob: dataURItoBlob(node.attrs.src) });
         }
         node.content?.forEach(findBase64Images);
@@ -122,14 +123,14 @@ export const updateBlogPost = createAsyncThunk(
       findBase64Images(newContentJson);
       if (base64Images.length > 0) {
         const formData = new FormData();
-        base64Images.forEach(({ blob }) => formData.append('images', blob));
+        base64Images.forEach(({ blob }) => formData.append("images", blob));
 
         const uploadRes = await axios.post(
-          'https://www.pawpalbd.com/api/user/blog/image',
+          "https://www.pawpalbd.com/api/user/blog/image",
           formData,
           {
             headers: {
-              'Content-Type': 'multipart/form-data',
+              "Content-Type": "multipart/form-data",
             },
           }
         );
@@ -138,7 +139,7 @@ export const updateBlogPost = createAsyncThunk(
 
         let index = 0;
         const replaceImages = (node) => {
-          if (node.type === 'image' && node.attrs?.src?.startsWith('data:')) {
+          if (node.type === "image" && node.attrs?.src?.startsWith("data:")) {
             node.attrs.src = urls[index].url;
             node.attrs.public_id = urls[index].public_id;
             index++;
@@ -148,7 +149,7 @@ export const updateBlogPost = createAsyncThunk(
         replaceImages(newContentJson);
       }
 
-      const res = await axios.patch('https://www.pawpalbd.com/api/user/blog/', {
+      const res = await axios.patch("https://www.pawpalbd.com/api/user/blog/", {
         blogId,
         content: newContentJson,
         removedImageIds,
@@ -163,14 +164,14 @@ export const updateBlogPost = createAsyncThunk(
 );
 
 export const saveBlogPost = createAsyncThunk(
-  'blog/saveBlogPost',
+  "blog/saveBlogPost",
   async ({ contentJson, type, userId }, thunkAPI) => {
     try {
       const base64Images = [];
 
       const dataURItoBlob = (dataURI) => {
-        const byteString = atob(dataURI.split(',')[1]);
-        const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        const byteString = atob(dataURI.split(",")[1]);
+        const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
         const ab = new ArrayBuffer(byteString.length);
         const ia = new Uint8Array(ab);
         for (let i = 0; i < byteString.length; i++) {
@@ -180,7 +181,7 @@ export const saveBlogPost = createAsyncThunk(
       };
 
       const findBase64Images = (node) => {
-        if (node.type === 'image' && node.attrs?.src?.startsWith('data:')) {
+        if (node.type === "image" && node.attrs?.src?.startsWith("data:")) {
           base64Images.push({ node, blob: dataURItoBlob(node.attrs.src) });
         }
         node.content?.forEach(findBase64Images);
@@ -189,14 +190,14 @@ export const saveBlogPost = createAsyncThunk(
 
       if (base64Images.length > 0) {
         const formData = new FormData();
-        base64Images.forEach(({ blob }) => formData.append('images', blob));
+        base64Images.forEach(({ blob }) => formData.append("images", blob));
 
         const uploadRes = await axios.post(
-          'https://www.pawpalbd.com/api/user/blog/image',
+          "https://www.pawpalbd.com/api/user/blog/image",
           formData,
           {
             headers: {
-              'Content-Type': 'multipart/form-data',
+              "Content-Type": "multipart/form-data",
             },
           }
         );
@@ -205,7 +206,7 @@ export const saveBlogPost = createAsyncThunk(
 
         let index = 0;
         const replaceImages = (node) => {
-          if (node.type === 'image' && node.attrs?.src?.startsWith('data:')) {
+          if (node.type === "image" && node.attrs?.src?.startsWith("data:")) {
             node.attrs.src = urls[index].url;
             node.attrs.public_id = urls[index].public_id;
             index++;
@@ -216,7 +217,7 @@ export const saveBlogPost = createAsyncThunk(
       }
 
       const createRes = await axios.post(
-        'https://www.pawpalbd.com/api/user/blog/',
+        "https://www.pawpalbd.com/api/user/blog/",
         {
           content: contentJson,
           type,
@@ -224,7 +225,7 @@ export const saveBlogPost = createAsyncThunk(
         },
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       );
@@ -246,11 +247,11 @@ const initialState = {
   blogTabIndex: 6,
   isShowBlogTypeModal: false,
   isLoading: false,
-  everySingleBlog: []
+  everySingleBlog: [],
 };
 
 const blogSlice = createSlice({
-  name: 'blog',
+  name: "blog",
   initialState,
   reducers: {
     setBlogTabIndex(state, action) {
@@ -276,12 +277,12 @@ const blogSlice = createSlice({
       })
       .addCase(saveBlogPost.rejected, (state, action) => {
         state.isLoading = false;
-        toast.error('Oops! something wrong happened...');
+        toast.error("Oops! something wrong happened...");
       })
       .addCase(saveBlogPost.fulfilled, (state, action) => {
         state.blogs.push(action.payload);
         state.isLoading = false;
-        toast.success('Blog is posted successfully!');
+        toast.success("Blog is posted successfully!");
         console.log(action.payload);
       })
       .addCase(getBlogs.pending, (state, action) => {
@@ -310,26 +311,27 @@ const blogSlice = createSlice({
       })
       .addCase(updateBlogPost.rejected, (state, action) => {
         state.isLoading = false;
-        toast.error('Oops! something wrong happened...');
+        toast.error("Oops! something wrong happened...");
       })
       .addCase(updateBlogPost.fulfilled, (state, action) => {
         const { _id } = action.payload;
         state.blogs = state.blogs.filter((item) => item._id !== _id);
         state.blogs.push(action.payload);
         state.isLoading = false;
-        toast.success('Blog is updated successfully!');
+        toast.success("Blog is updated successfully!");
       })
       .addCase(deleteBlogPost.pending, (state, action) => {
         state.isLoading = true;
       })
       .addCase(deleteBlogPost.rejected, (state, action) => {
         state.isLoading = false;
-        toast.error('Oops! something wrong happened...');
+        toast.error("Oops! something wrong happened...");
       })
       .addCase(deleteBlogPost.fulfilled, (state, action) => {
+        console.log(action.payload, "from delete");
         state.blogs = state.blogs.filter((item) => item._id !== action.payload);
         state.isLoading = false;
-        toast.success('Blog is deleted successfully!');
+        toast.success("Blog is deleted successfully!");
       })
       .addCase(getFeaturedBlogs.pending, (state, action) => {
         state.isLoading = true;
@@ -351,6 +353,38 @@ const blogSlice = createSlice({
       })
       .addCase(getEverySingleBlogs.rejected, (state, action) => {
         state.isLoading = false;
+      })
+      .addCase(toggleFeaturedBlog.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(toggleFeaturedBlog.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const updatedBlog = action?.payload?.blog;
+
+        if (updatedBlog?.isFeature) {
+          if (
+            !state.featuredBlogs.some((blog) => blog._id === updatedBlog._id)
+          ) {
+            state.featuredBlogs.push(updatedBlog);
+          }
+
+          state.everySingleBlog = state.everySingleBlog.filter(
+            (blog) => blog._id !== updatedBlog._id
+          );
+        } else {
+          state.featuredBlogs = state.featuredBlogs.filter(
+            (blog) => blog._id !== updatedBlog._id
+          );
+
+          if (
+            !state.everySingleBlog.some((blog) => blog._id === updatedBlog._id)
+          ) {
+            state.everySingleBlog.push(updatedBlog);
+          }
+        }
+      })
+      .addCase(toggleFeaturedBlog.rejected, (state, action) => {
+        state.isLoading = false;
       });
   },
 });
@@ -371,4 +405,4 @@ export const isShowBlogTypeModal = (state) => state.blog.isShowBlogTypeModal;
 export const specificBlogs = (state) => state.blog.specificBlogs;
 export const blogIsLoading = (state) => state.blog.isLoading;
 export const blogUser = (state) => state.blog.blogUser;
-export const everyBlog = state => state.blog.everySingleBlog;
+export const everyBlog = (state) => state.blog.everySingleBlog;

@@ -1,3 +1,4 @@
+import { Button } from "@/Components/ui/button";
 import { setBlog } from "@/Store/Blog";
 import {
   extractFirstImageUrl,
@@ -7,7 +8,13 @@ import {
 import { Trash2 } from "lucide-react";
 import React from "react";
 
-const ProfileBlogCard = ({ item, showDelete, dispatch, handleBlogDelete }) => {
+const ProfileBlogCard = ({
+  item,
+  showDelete,
+  dispatch,
+  handleBlogDelete,
+  userData, reqId, toggleFeature
+}) => {
   const imageUrl = extractFirstImageUrl(item?.content?.content);
   const headings = extractHeadings(
     item.content?.content?.[0]
@@ -37,22 +44,31 @@ const ProfileBlogCard = ({ item, showDelete, dispatch, handleBlogDelete }) => {
           </h3>
 
           <ul className="flex justify-start gap-10 text-md text-[#565656] mt-1 ml-5 list-disc">
+            {featureStatus? <li className="text-green-500 font-semibold">Featured</li>: null}
             <li>{blogType.charAt(0).toUpperCase() + blogType.slice(1)}</li>
           </ul>
         </div>
       </section>
 
-      <section className="flex flex-col justify-center items-center gap-2 mr-6">
+      <section className="flex flex-col justify-center items-center gap-3 mr-6">
+        {userData?.user?.isAdmin ? (
+          <Button onClick={(e) => {
+            e.stopPropagation()
+            toggleFeature(item._id)
+          }} className={'w-[200px]'}>
+            {!featureStatus ? 'Add to Featured' : 'Remove from featured'}
+          </Button>
+        ) : null}
         {showDelete ? (
-          <button
+          <Button
             onClick={(e) => {
-              e.stopPropagation(); // Prevents the parent's onClick from firing
-              handleBlogDelete(item._id);
+              e.stopPropagation();
+              handleBlogDelete(item._id, reqId);
             }}
-            className="p-2 rounded-md hover:shadow-md hover:bg-red-200 active:font-bold font-semibold"
+            className="p-2 rounded-md hover:shadow-md hover:bg-red-600 active:font-bold font-semibold bg-red-400 text-white w-[200px]"
           >
-            <Trash2 color="red" size={32} />
-          </button>
+            Delete
+          </Button>
         ) : null}
       </section>
     </main>
