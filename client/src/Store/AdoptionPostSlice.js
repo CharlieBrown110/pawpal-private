@@ -63,6 +63,24 @@ export const deletePost = createAsyncThunk(
   }
 )
 
+export const handleAdoptionUpdate = createAsyncThunk(
+  'user/handleFieldUpdate',
+  async ({ postId, field, data }, thunkAPI) => {
+    console.log(postId, field, data, 'inside the thunk')
+    try {
+      const response = await axios.put(
+        BASE_URL+`edit/${postId}/${field}`,
+        { data }
+      );
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response?.data || "Failed to update data"
+      );
+    }
+  }
+);
+
 const adoptionPostSlice = createSlice({
   name: "post",
   initialState,
@@ -119,7 +137,21 @@ const adoptionPostSlice = createSlice({
       .addCase(deletePost.rejected, (state, action) => {
         state.isLoading = false;
         state.status = "rejected";
-      });
+      })
+      .addCase(handleAdoptionUpdate.pending, (state, action) => {
+        state.isLoading = true;
+        state.status = "pending";
+      })
+      .addCase(handleAdoptionUpdate.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.status = "fulfilled";
+        console.log(action?.payload?.msg, 'handle fulfilled')
+      })
+      .addCase(handleAdoptionUpdate.rejected, (state, action) => {
+        state.isLoading = false;
+        state.status = "rejected";
+        console.log(action?.payload?.msg, 'handle reject')
+      })
   },
 });
 
