@@ -8,7 +8,7 @@ const ChatList = ({ allChats, userData, postId }) => {
       {[...allChats]
         .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
         .map(singleChat => (
-          <SingleChat key={singleChat.id} {...singleChat} userData={userData} />
+          <SingleChat  {...singleChat} userData={userData} />
         ))}
     </div>
   )
