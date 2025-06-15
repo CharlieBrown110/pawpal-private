@@ -18,7 +18,7 @@ const BlogContainer = () => {
   const dispatch = useDispatch()
   useEffect(()=>console.log(currentFeaturedBlogs, 'currentblog featured'))
   useEffect(()=>{
-    dispatch(getFeaturedBlogs({userId:currentUser.userId}));
+    dispatch(getFeaturedBlogs({userId:currentUser?.userId}));
   },[])
   return (
     <div className="w-full h-screen overflow-y-scroll bg-[#FFFDF5] pt-[130px]">

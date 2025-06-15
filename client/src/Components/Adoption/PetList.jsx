@@ -25,7 +25,8 @@ const PetList = () => {
   const allPets = useSelector(selectAllPosts);
   const status = useSelector(getStatus);
   const [searchParams, setSearchParams] = useSearchParams();
-  const {isAdmin} = useSelector(user)
+  const currentUser = useSelector(user)
+  const isAdmin = currentUser?.isAdmin
 
   const selectedTypes = searchParams.get("animalType")?.split(",") || [];
   const selectedBreed = searchParams.get("breed")?.split(",") || [];
@@ -48,7 +49,7 @@ const PetList = () => {
     maxAge,
   };
 
-  const filteredPets = allPets.filter((pet) => {
+  const filteredPets = allPets?.filter((pet) => {
     const matchType =
       selectedTypes.length === 0 || selectedTypes.includes(pet.animalType);
     const matchBreed =

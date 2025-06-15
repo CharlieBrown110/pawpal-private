@@ -59,10 +59,10 @@ const Adopted = () => {
     <div className="flex flex-col justify-start gap-6 mt-4">
       <div className="flex w-full justify-start items-center">
         <h6 className="text-[#565656] font-montserrat text-sm">
-          {adoptedList.length} pets found furr-ever home
+          {adoptedList?.length} pets found furr-ever home
         </h6>
       </div>
-      {adoptedList.length?adoptedList.map((adoptedPost) => (
+      {adoptedList?.length?adoptedList.map((adoptedPost) => (
         <ProfileAdoptionCard
           key={adoptedPost.id}
           {...adoptedPost}

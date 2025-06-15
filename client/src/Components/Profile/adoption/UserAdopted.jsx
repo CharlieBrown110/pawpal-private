@@ -35,10 +35,10 @@ const UserAdopted = () => {
     <div className="flex flex-col justify-start gap-6 mt-4">
       <div className="flex w-full justify-start items-center">
         <h6 className="text-[#565656] font-montserrat text-sm">
-          {userAdoptedList.length} pets adopted
+          {userAdoptedList?.length} pets adopted
         </h6>
       </div>
-      {userAdoptedList.length ? userAdoptedList?.map((pet) => (
+      {userAdoptedList?.length ? userAdoptedList?.map((pet) => (
         <ProfileAdoptionCard key={pet.id} {...pet} showDelete={false}/>
       )): null}
     </div>
