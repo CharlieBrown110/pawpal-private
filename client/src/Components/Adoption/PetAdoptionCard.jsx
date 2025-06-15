@@ -30,7 +30,7 @@ const PetAdoptionCard = ({
   userId
 }) => {
 
-  const [userName, setUserName] = useState("Unknown user");
+  const [info,setInfo] = useState("Unknown user");
   const petBreed =
     breed.length > 9 ? breed.substring(0, 8).concat("..") : breed;
   const petTypeByAge =
@@ -47,7 +47,7 @@ const PetAdoptionCard = ({
   useEffect(() => {
     const getUserInfo = async () => {
       const response = await getUserDetailsWithId(userId)
-      setUserName(response?.user?.name)
+      setInfo(response)
     }
     getUserInfo()
   },[userId])
@@ -73,7 +73,7 @@ const PetAdoptionCard = ({
         {isAdmin ? (
           <div className="flex px-8 flex-col gap-1 mt-2 font-semibold">
             <h4>Owner: {address.name}</h4>
-            <h4>Posted by: {userName}</h4>
+            <Link to={`/profile/${info?.userId}`}>Posted by: {info?.user?.name}</Link>
           </div>
         ) : null}
         <div className="flex mt-4 font-3xl font-semibold gap-1 px-8 items-center justify-start pb-4">
