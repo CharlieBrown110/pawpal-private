@@ -2,30 +2,40 @@ import { user } from "@/Store/Auth";
 import {
   blogs,
   deleteBlogPost,
+  everyBlog,
   getBlogs,
+  getEverySingleBlogs,
   getSpecificBlogs,
 } from "@/Store/Blog";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import ProfileBlogCard from "./ProfileBlogCard";
+import { useParams } from "react-router-dom";
 
 const ProfileBlogList = () => {
   const dispatch = useDispatch();
   const userData = useSelector(user);
+  const {userId} = useParams() 
+  const everySingleBlog = useSelector(everyBlog)
+
+  const reqId = userId? userId : userData?.userId;
+
+
   const allBlogs = useSelector(blogs);
   useEffect(() => {
     const getSpecificBlogs = async () => {
       try {
         const data = await dispatch(
-          getBlogs({ userId: userData?.userId })
+          getBlogs({ userId: reqId })
         );
+        await dispatch(getEverySingleBlogs())
       } catch (error) {
         toast.error("Something went wrong");
       }
     };
     getSpecificBlogs();
-  }, [dispatch, userData]);
+  }, [dispatch, reqId, userData]);
 
   const handleBlogDelete = async (postId, id) => {
     try {
@@ -37,17 +47,19 @@ const ProfileBlogList = () => {
     }
   };
 
-  console.log(allBlogs, "all blogs");
+
+
+  const blogsSelectedForList = !userId && userData?.user?.isAdmin? everySingleBlog : allBlogs;
   return (
     <main className="p-10 pt-2 font-inter w-full max-h-[68vh] overflow-y-auto scrollbar-hidden">
       <div className="flex flex-col justify-start gap-6 mt-4">
         <div className="flex w-full justify-start items-center">
           <h6 className="text-[#565656] font-montserrat text-sm">
-            {allBlogs?.length} blog written so far...
+            {blogsSelectedForList?.length || "0"} blog written so far...
           </h6>
         </div>
-        {allBlogs.length
-          ? allBlogs.map((post) => (
+        {blogsSelectedForList?.length
+          ? blogsSelectedForList?.map((post) => (
               <ProfileBlogCard
                 key={post._id}
                 {...post}

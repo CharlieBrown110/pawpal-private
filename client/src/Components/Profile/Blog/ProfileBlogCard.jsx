@@ -20,7 +20,6 @@ const ProfileBlogCard = ({ item, showDelete, dispatch, handleBlogDelete }) => {
   const title = headings[0]?.text || contentAsHeading || "Untitled";
   const featureStatus = item.isFeature;
   const blogType = item.type;
-  console.log(title, "blog card");
   return (
     <main
       onClick={() => dispatch(setBlog(item))}
