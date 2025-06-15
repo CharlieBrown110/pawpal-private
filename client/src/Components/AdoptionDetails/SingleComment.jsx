@@ -12,6 +12,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/Components/ui/alert-dialog";
+import { Link } from "react-router-dom";
 
 const SingleComment = ({
   rootComment,
@@ -27,35 +28,40 @@ const SingleComment = ({
   const fiveMinutes = 5 * 60 * 1000;
   const timePassed = new Date() - new Date(rootComment.createdAt) > fiveMinutes;
   //const createdAt = new Date(rootComment.createdAt).toLocaleDateString();
-  const createdAt = new Date(rootComment.createdAt).toLocaleString('en-GB', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: '2-digit',
-  hour12: true,
-  timeZone: 'Asia/Dhaka',
-});
+  const createdAt = new Date(rootComment.createdAt).toLocaleString("en-GB", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+    timeZone: "Asia/Dhaka",
+  });
 
   const canReply = Boolean(currentUserId);
-  const canEdit =
-    Boolean(currentUserId) ||
-    (currentUserId === rootComment.userId && !timePassed);
-  const canDelete =
-    Boolean(currentUserId) ||
-    (currentUserId === rootComment.userId && !timePassed);
+  const canEdit = currentUserId === rootComment?.userId?._id && !timePassed;
+  const canDelete = currentUserId === rootComment?.userId?._id && !timePassed;
   const isReplying =
     activeComment?.type === "replying" && activeComment?.id === rootComment._id;
   const isEditing =
     activeComment?.type === "editing" && activeComment?.id === rootComment._id;
   const replyId = parentId ? parentId : rootComment._id;
+
+  const isSameUser = currentUserId === rootComment?.userId?._id;
   return (
     <section className="mt-0.5">
       <div className="grid grid-cols-[1fr_20fr] gap-1">
         <CircleUserRound size={28} />
         <div className="flex flex-col justify-start">
           <div className="flex justify-start items-center gap-4">
-            <h3 className="font-bold text-lg">{rootComment?.userId?.name}</h3>
+            <Link
+              to={
+                isSameUser ? "/profile" : `/profile/${rootComment?.userId?._id}`
+              }
+              className="font-bold text-lg"
+            >
+              {rootComment?.userId?.name}
+            </Link>
             <p className="text-xs text-[#565656]">{createdAt}</p>
           </div>
           {!isEditing ? (

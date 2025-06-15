@@ -18,7 +18,7 @@ const PetDetailsInfo = ({name, description, _id, sex, animalType, age, breed, cr
       : "Adult";   
       console.log(adoptedBy, 'adopt')
   return (
-    <section className="w-ful p-6 rounded-lg shadow-xl bg-[#F2EED9] border-2 border-[#8C7A3F] max-h-[440px] overflow-y-auto custom-scrollbar">
+    <section className="w-ful p-6 rounded-lg shadow-xl bg-[#F2EED9] border-2 border-[#8C7A3F] max-h-[440px] overflow-y-auto scrollbar-hidden">
       <div className="flex justify-between items-center">
         <div className="flex justify-center items-center gap-2">
           <h2 className="gloria-hallelujah-regular text-5xl">{name}</h2>

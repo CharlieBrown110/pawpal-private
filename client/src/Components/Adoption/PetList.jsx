@@ -26,7 +26,7 @@ const PetList = () => {
   const status = useSelector(getStatus);
   const [searchParams, setSearchParams] = useSearchParams();
   const currentUser = useSelector(user)
-  const isAdmin = currentUser?.isAdmin
+  const isAdmin = currentUser?.user?.isAdmin
 
   const selectedTypes = searchParams.get("animalType")?.split(",") || [];
   const selectedBreed = searchParams.get("breed")?.split(",") || [];

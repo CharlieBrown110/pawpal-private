@@ -12,6 +12,7 @@ const ProfileTransportAccepted = () => {
   const dispatch = useDispatch()
   const singleUserTransportList = useSelector(getUserTransportDeatils)
   const reqId = userId? userId : userData?.userId
+  console.log(reqId);
   const getAllTransport = useSelector(getAllList)
 
   useEffect(() => {
