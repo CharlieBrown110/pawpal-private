@@ -107,12 +107,12 @@ const CommentSection = () => {
         <h2 className="text-3xl font-semibold">
           Discussions On {" "}
           <span className="gloria-hallelujah-regular">{currentPost?.name}</span>
-          <div>{typing ? `${test} is typing` : ""}</div>
+          {/* <div>{typing ? `${test} is typing` : ""}</div> */}
         </h2>
       </div>
       <Separator className={"bg-[#8C7A3F] my-4"} />
       <CommentForm submitLabel={'Post'} handleSubmit={addComment} handleKeyPress={handleKeyPress} />
-      <CommentList postId={postId} dispatch={dispatch} allComments={allComments} getAllComments={getAllComments} backendComments={backendComments} setBackendComments={setBackendComments} addComment={addComment} activeComment={activeComment} setActiveComment={setActiveComment} updateComment={updateComment} deleteComment={deleteComment} />
+      <CommentList postId={postId} dispatch={dispatch} allComments={allComments} getAllComments={getAllComments} backendComments={backendComments} setBackendComments={setBackendComments} addComment={addComment} activeComment={activeComment} setActiveComment={setActiveComment} updateComment={updateComment} deleteComment={deleteComment} userData={userData} typing={typing}/>
     </section>
   );
 };

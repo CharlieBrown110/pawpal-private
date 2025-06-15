@@ -299,7 +299,7 @@ const onDeletePost = async (id) => {
         <Label htmlFor="photos" className={styles.label}>
           Upload Image:
         </Label>
-        <div className="bg-[#F2EED9] outline-[#fffae6] border-2 border-[#8C7A3F] border-dashed rounded-lg py-6">
+        <div className={`bg-[#F2EED9] outline-[#fffae6] border-2 border-[#8C7A3F] border-dashed rounded-lg py-6 ${postId ? 'opacity-50 cursor-not-allowed': 'null'}`}>
           <Input
             id="photos"
             name="photos"
@@ -310,6 +310,7 @@ const onDeletePost = async (id) => {
             accept="image/*"
             required
             className={"hidden"}
+            disabled={postId}
           />
           {!imageFile?.length ? (
             <Label

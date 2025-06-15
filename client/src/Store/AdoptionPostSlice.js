@@ -39,7 +39,7 @@ export const getPetDetailsWithId = createAsyncThunk(
   async (id) => {
     try {
       const response = await axios.get(
-        BASE_URL+`getPostWithId/${id}`, {withCredentials:true}
+        BASE_URL+`getPostWithId/${id}`, {}
       );
       return response.data;
     } catch (error) {
@@ -53,7 +53,7 @@ export const deletePost = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const response = await axios.delete(
-        BASE_URL+`deletePost/${id}`, {withCredentials: true}
+        BASE_URL+`deletePost/${id}`, {}
       )
       return response.data
     } catch (error) {

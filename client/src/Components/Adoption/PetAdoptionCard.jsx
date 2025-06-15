@@ -1,5 +1,4 @@
-import React from "react";
-import { Card, CardContent, CardHeader } from "../ui/card";
+import React, { useEffect, useState } from "react";
 import { MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
@@ -14,6 +13,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import getUserDetailsWithId from "../Profile/user/getUserDetailsWithId";
+
 
 const PetAdoptionCard = ({
   name,
@@ -26,7 +27,10 @@ const PetAdoptionCard = ({
   address,
   isAdmin,
   onDeletePost,
+  userId
 }) => {
+
+  const [userName, setUserName] = useState("Unknown user");
   const petBreed =
     breed.length > 9 ? breed.substring(0, 8).concat("..") : breed;
   const petTypeByAge =
@@ -39,6 +43,14 @@ const PetAdoptionCard = ({
         ? "Puppy"
         : "Chick"
       : "Adult";
+
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const response = await getUserDetailsWithId(userId)
+      setUserName(response?.user?.name)
+    }
+    getUserInfo()
+  },[userId])
 
   return (
     <Link to={!isAdmin ? `${_id}` : `.`}>
@@ -61,7 +73,7 @@ const PetAdoptionCard = ({
         {isAdmin ? (
           <div className="flex px-8 flex-col gap-1 mt-2 font-semibold">
             <h4>Owner: {address.name}</h4>
-            <h4>Posted by: unknown user</h4>
+            <h4>Posted by: {userName}</h4>
           </div>
         ) : null}
         <div className="flex mt-4 font-3xl font-semibold gap-1 px-8 items-center justify-start pb-4">
