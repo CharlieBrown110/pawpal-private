@@ -6,6 +6,7 @@ import {
   getBlogs,
   getEverySingleBlogs,
   getSpecificBlogs,
+  toggleFeaturedBlog,
 } from "@/Store/Blog";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -42,13 +43,23 @@ const ProfileBlogList = () => {
       await dispatch(deleteBlogPost({ blogId: postId }));
       toast.success('Post deleted successfully')
       await dispatch(getBlogs({userId: id}))
+      await dispatch(getEverySingleBlogs())
     } catch (error) {
       toast.error('Something went wrong')
     }
   };
+  const showDelete = !userId || userData?.user?.isAdmin
 
-
-
+  const toggleFeature = async (blogId) => {
+    try {
+      console.log(blogId, 'toggle Feature')
+      const response = await dispatch(toggleFeaturedBlog({blogId}))
+      console.log(response, 'toggle')
+      toast.success('Updated status successfully')
+    } catch (error) {
+      toast.error('Something went wrong')
+    }
+  }
   const blogsSelectedForList = !userId && userData?.user?.isAdmin? everySingleBlog : allBlogs;
   return (
     <main className="p-10 pt-2 font-inter w-full max-h-[68vh] overflow-y-auto scrollbar-hidden">
@@ -63,11 +74,13 @@ const ProfileBlogList = () => {
               <ProfileBlogCard
                 key={post._id}
                 {...post}
-                showDelete={true}
+                showDelete={showDelete}
                 item={post}
                 dispatch={dispatch}
                 handleBlogDelete={handleBlogDelete}
                 userData={userData}
+                reqId={reqId}
+                toggleFeature={toggleFeature}
               />
             ))
           : null}
