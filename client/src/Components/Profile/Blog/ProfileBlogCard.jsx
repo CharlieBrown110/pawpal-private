@@ -1,12 +1,13 @@
 import { Button } from "@/Components/ui/button";
-import { setBlog } from "@/Store/Blog";
+import { setBlog, setBlogUser } from "@/Store/Blog";
 import {
   extractFirstImageUrl,
   extractFirstParagraph,
   extractHeadings,
 } from "@/Utils/blog";
 import { Trash2 } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
+import getUserDetailsWithId from "../user/getUserDetailsWithId";
 
 const ProfileBlogCard = ({
   item,
@@ -27,9 +28,14 @@ const ProfileBlogCard = ({
   const title = headings[0]?.text || contentAsHeading || "Untitled";
   const featureStatus = item.isFeature;
   const blogType = item.type;
+  const handleClick = async()=>{
+    const user = await getUserDetailsWithId(item?.userId)
+    await dispatch(setBlogUser(user))
+    await dispatch(setBlog(item?.content))
+  }
   return (
     <main
-      onClick={() => dispatch(setBlog(item))}
+      onClick={handleClick}
       className="w-full bg-[#F2EED9] hover:shadow-lg border-2 border-[#8C7A3F] shadow-md rounded-md p-4 flex justify-between items-center"
     >
       <section className="flex justify-start items-center gap-3">
