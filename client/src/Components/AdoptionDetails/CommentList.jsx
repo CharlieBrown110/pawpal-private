@@ -42,7 +42,7 @@ const CommentList = ({
         {allComments.length || "0"} Comments
       </h4>
       <h4 className="text-md font-semibold text-[#565656] mt-2">{typing? "Someone is typing...": "" }</h4>
-      <div className="flex flex-col justify-start gap-4 mt-8 max-h-[63vh] overflow-y-auto custom-scrollbar">
+      <div className="flex flex-col justify-start gap-4 mt-8 max-h-[63vh] overflow-y-auto scrollbar-hidden">
         {rootComments.map((rootComment) => (
           <SingleComment
             key={rootComment._id}
