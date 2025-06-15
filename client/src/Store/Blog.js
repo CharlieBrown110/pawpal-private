@@ -34,6 +34,19 @@ export const toggleFeaturedBlog = createAsyncThunk(
   }
 );
 
+export const getEverySingleBlogs = createAsyncThunk(
+  'blog/getEverySingleBlog', async (_ , thunkAPI) => {
+    try {
+      const response = await axios.get(
+        'https://www.pawpalbd.com/api/user/blog/getAllBlogs',
+      );
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+)
+
 export const getBlogs = createAsyncThunk(
   'blog/getBlogs',
   async ({ userId }, thunkAPI) => {
@@ -233,6 +246,7 @@ const initialState = {
   blogTabIndex: 6,
   isShowBlogTypeModal: false,
   isLoading: false,
+  everySingleBlog: []
 };
 
 const blogSlice = createSlice({
@@ -326,6 +340,17 @@ const blogSlice = createSlice({
       })
       .addCase(getFeaturedBlogs.rejected, (state, action) => {
         state.isLoading = false;
+      })
+      .addCase(getEverySingleBlogs.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(getEverySingleBlogs.fulfilled, (state, action) => {
+        // console.log(action?.payload?.blogs)
+        state.everySingleBlog = action?.payload?.blogs;
+        state.isLoading = false;
+      })
+      .addCase(getEverySingleBlogs.rejected, (state, action) => {
+        state.isLoading = false;
       });
   },
 });
@@ -346,3 +371,4 @@ export const isShowBlogTypeModal = (state) => state.blog.isShowBlogTypeModal;
 export const specificBlogs = (state) => state.blog.specificBlogs;
 export const blogIsLoading = (state) => state.blog.isLoading;
 export const blogUser = (state) => state.blog.blogUser;
+export const everyBlog = state => state.blog.everySingleBlog;
