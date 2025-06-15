@@ -6,14 +6,20 @@ import { Plus } from "lucide-react";
 import { Input } from "../ui/input";
 import { toast } from "sonner";
 import profilePicUploader from "./profilePicUploader";
-import { setUser } from "@/Store/Auth";
-import { useDispatch } from "react-redux";
+import { setProfilePicture, setUser, user } from "@/Store/Auth";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProfileHeader = ({ userInfo }) => {
   const fileInputRef = useRef(null);
   const { userId } = useParams();
   const dispatch = useDispatch()
   console.log(userId);
+  console.log(userInfo, 'profile header')
+  const currentUserData = useSelector(user);
+
+  const showAddIcon = userId ? currentUserData?.userId === userId : true;
+  console.log(showAddIcon, 'add icon');
+  
 
   const currentDate = new Date().toLocaleString("en-GB", {
     year: "numeric",
@@ -42,10 +48,10 @@ const ProfileHeader = ({ userInfo }) => {
       console.log(userInfo?.userId, 'pp')
       const updatedUser = await profilePicUploader(userInfo?.userId, formData);
 
-      console.log(updatedUser)
+      console.log(updatedUser, "updatedUserinfo")
       if (updatedUser) {
         toast.success("Photo uploaded successfully", { duration: 3000 });
-        dispatch(setUser(updatedUser))
+        dispatch(setProfilePicture(updatedUser))
       }
     } catch (error) {
       toast.error("Upload failed", {
@@ -62,7 +68,7 @@ const ProfileHeader = ({ userInfo }) => {
           alt="profile-picture"
           className="w-[120px] h-[120px] rounded-full object-cover shadow-xl"
         />
-        <div className="absolute right-0 top-[70%] bg-[#c9c19c] rounded-full p-1">
+        {showAddIcon ? <div className="absolute right-0 top-[70%] bg-[#c9c19c] rounded-full p-1">
           <Input
             ref={fileInputRef}
             id="profile-photo"
@@ -78,7 +84,7 @@ const ProfileHeader = ({ userInfo }) => {
           >
             <Plus size={16} />
           </button>
-        </div>
+        </div>: null}
       </div>
       <div className="flex flex-col justify-around">
         <h3 className="font-semibold font-montserrat text-3xl">

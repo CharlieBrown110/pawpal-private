@@ -40,6 +40,11 @@ const UserAdopted = () => {
       </div>
       {userAdoptedList?.length ? userAdoptedList?.map((pet) => (
         <ProfileAdoptionCard key={pet.id} {...pet} showDelete={false}/>
+
+
+
+
+        
       )): null}
     </div>
   );

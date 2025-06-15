@@ -77,6 +77,13 @@ const authSlice = createSlice({
         setAuthStatus(state, action) {
             state.authStatus = action.payload;
         },
+        setProfilePicture(state,action) {
+          console.log(action.payload, 'setProfilePicture')
+          if(state.user) {
+            console.log(state.user.user.profilePicture, 'prevProfilePicture')
+            state.user.user.profilePicture = action.payload
+          }
+        }
     },
 
     extraReducers(builder) {
@@ -134,7 +141,7 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const { setToken, setUser, setAuthStatus } = authSlice.actions;
+export const { setToken, setUser, setAuthStatus, setProfilePicture } = authSlice.actions;
 export const user = (state) => state.auth.user;
 export const authStatus = (state) => state.auth.authStatus;
 export const authIsLoading = (state) => state.auth.isLoading;

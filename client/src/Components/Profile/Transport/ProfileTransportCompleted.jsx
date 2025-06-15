@@ -24,7 +24,7 @@ const ProfileTransportCompleted = () => {
     getList()
   },[dispatch, reqId])
 
-  const completeList = !userData?.user?.isAdmin? singleUserTransportList?.filter(transport => transport.isApproved && transport.isComplete) : getAllTrasport?.filter(transport => transport.isApproved && transport.isComplete)
+  const completeList = !userData?.user?.isAdmin? singleUserTransportList?.filter(transport => transport.isApproved && transport.isCompleted) : getAllTrasport?.filter(transport => transport?.isApproved && transport?.isCompleted)
   console.log(completeList, 'completeList')
   const showDelete = true
   const handleDelete = async(id) => {

@@ -40,6 +40,7 @@ const ProfileLayout = () => {
     getUserData()
   }, [userData, userId]);
 
+  console.log(userInfo, 'profile Layout')
   return (
     <main>
       <div className="px-14">

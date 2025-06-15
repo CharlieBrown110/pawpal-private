@@ -23,7 +23,7 @@ const ProfileTransportAccepted = () => {
     getList()
   },[dispatch, reqId])
 
-  const approvedList = !userData?.user?.isAdmin ? singleUserTransportList?.filter(transport => transport?.isApproved && !transport?.isComplete) : getAllTransport?.filter(transport => transport?.isApproved && !transport?.isComplete)
+  const approvedList = !userData?.user?.isAdmin ? singleUserTransportList?.filter(transport => transport?.isApproved && !transport?.isCompleted) : getAllTransport?.filter(transport => transport?.isApproved && !transport?.isCompleted)
   console.log(approvedList, 'approved list')
   const handleDelete = async(id) => {
     try {

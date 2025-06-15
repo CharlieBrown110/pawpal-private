@@ -25,7 +25,7 @@ const ProfileTransportPending = () => {
     getList()
   },[dispatch, reqId])
 
-  const pendingList = !userData?.user?.isAdmin ? singleUserTransportList?.filter(transport => !transport?.isApproved && !transport?.isComplete) : getAllTrasport?.filter(transport => !transport?.isApproved && !transport?.isComplete)
+  const pendingList = !userData?.user?.isAdmin ? singleUserTransportList?.filter(transport => !transport?.isApproved && !transport?.isCompleted) : getAllTrasport?.filter(transport => !transport?.isApproved && !transport?.isCompleted)
   console.log(pendingList, 'pending list')
   const handleDelete = async(id) => {
     try {

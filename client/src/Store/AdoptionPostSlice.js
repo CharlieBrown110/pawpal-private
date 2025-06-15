@@ -14,7 +14,7 @@ export const getAllPosts = createAsyncThunk(
   "adoptionPostSlice/getAllPosts",
   async () => {
     try {
-      const response = await axios.get(BASE_URL+'getAllPosts', {withCredentials:true});
+      const response = await axios.get(BASE_URL+'getAllPosts');
       return response.data;
     } catch (error) {
       return error;
