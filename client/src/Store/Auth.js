@@ -9,7 +9,7 @@ export const login = createAsyncThunk('auth/login', async (data, thunkAPI) => {
   try {
     const response = await axios.post(
       'https://www.pawpalbd.com/api/user/api/login',
-      data
+      data, {withCredentials:true}
     );
     console.log(response.data.user);
     if (response.data.user.isVerified == false) {
@@ -33,7 +33,7 @@ export const register = createAsyncThunk(
     try {
       const response = await axios.post(
         'https://www.pawpalbd.com/api/user/api/create',
-        data
+        data, {withCredentials:true}
       );
       return response.data;
     } catch (error) {
