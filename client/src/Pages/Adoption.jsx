@@ -6,6 +6,7 @@ import { Button } from '@/Components/ui/button'
 import StaticDataSegment from '@/Components/Adoption/StaticDataSegment'
 import AdoptionNavbar from '@/Components/Adoption/AdoptionNavbar'
 import AdoptionLayout from '@/Components/Layout/AdoptionLayout'
+import Footer from '@/Components/Home/Footer'
 
 const Adoption = () => {
   const scrollRef =useRef(null)
@@ -19,8 +20,9 @@ const Adoption = () => {
       dispatch(setScrollY(scrollY))
     }
   return (
-    <div className="flex flex-col h-full w-full overflow-y-scroll scrollbar-hidden bg-[#EBE8DB] px-14">
+    <div className="flex flex-col h-full w-full overflow-y-scroll scrollbar-hidden bg-[#EBE8DB]">
       <AdoptionLayout/>
+      <Footer/>
     </div>
   )
 }

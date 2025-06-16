@@ -73,7 +73,7 @@ const PetAdoptionCard = ({
         {isAdmin ? (
           <div className="flex px-8 flex-col gap-1 mt-2 font-semibold">
             <h4>Owner: {address.name}</h4>
-            <Link to={`/profile/${info?.userId}`}>Posted by: {info?.user?.name}</Link>
+            <Link to={`/profile/${info?.userId}`} className="hover:underline">Posted by: {info?.user?.name}</Link>
           </div>
         ) : null}
         <div className="flex mt-4 font-3xl font-semibold gap-1 px-8 items-center justify-start pb-4">

@@ -361,27 +361,31 @@ const blogSlice = createSlice({
         state.isLoading = false;
         const updatedBlog = action?.payload?.blog;
 
-        if (updatedBlog?.isFeature) {
-          if (
-            !state.featuredBlogs.some((blog) => blog._id === updatedBlog._id)
-          ) {
-            state.featuredBlogs.push(updatedBlog);
-          }
+        if(updatedBlog?.isFeature) {
+          state.featuredBlogs.push(updatedBlog)
+        } else state.featuredBlogs = state?.featuredBlogs?.filter(blog => blog._id !== updatedBlog._id)
 
-          state.everySingleBlog = state.everySingleBlog.filter(
-            (blog) => blog._id !== updatedBlog._id
-          );
-        } else {
-          state.featuredBlogs = state.featuredBlogs.filter(
-            (blog) => blog._id !== updatedBlog._id
-          );
+        // if (updatedBlog?.isFeature) {
+        //   if (
+        //     !state.featuredBlogs.some((blog) => blog._id === updatedBlog._id)
+        //   ) {
+        //     state.featuredBlogs.push(updatedBlog);
+        //   }
 
-          if (
-            !state.everySingleBlog.some((blog) => blog._id === updatedBlog._id)
-          ) {
-            state.everySingleBlog.push(updatedBlog);
-          }
-        }
+        //   state.everySingleBlog = state.everySingleBlog.filter(
+        //     (blog) => blog._id !== updatedBlog._id
+        //   );
+        // } else {
+        //   state.featuredBlogs = state.featuredBlogs.filter(
+        //     (blog) => blog._id !== updatedBlog._id
+        //   );
+
+        //   if (
+        //     !state.everySingleBlog.some((blog) => blog._id === updatedBlog._id)
+        //   ) {
+        //     state.everySingleBlog.push(updatedBlog);
+        //   }
+        // }
       })
       .addCase(toggleFeaturedBlog.rejected, (state, action) => {
         state.isLoading = false;

@@ -17,20 +17,17 @@ import { useParams } from "react-router-dom";
 const ProfileBlogList = () => {
   const dispatch = useDispatch();
   const userData = useSelector(user);
-  const {userId} = useParams() 
-  const everySingleBlog = useSelector(everyBlog)
+  const { userId } = useParams();
+  const everySingleBlog = useSelector(everyBlog);
 
-  const reqId = userId? userId : userData?.userId;
-
+  const reqId = userId ? userId : userData?.userId;
 
   const allBlogs = useSelector(blogs);
   useEffect(() => {
     const getSpecificBlogs = async () => {
       try {
-        const data = await dispatch(
-          getBlogs({ userId: reqId })
-        );
-        await dispatch(getEverySingleBlogs())
+        const data = await dispatch(getBlogs({ userId: reqId }));
+        await dispatch(getEverySingleBlogs());
       } catch (error) {
         toast.error("Something went wrong");
       }
@@ -41,26 +38,30 @@ const ProfileBlogList = () => {
   const handleBlogDelete = async (postId, id) => {
     try {
       await dispatch(deleteBlogPost({ blogId: postId }));
-      toast.success('Post deleted successfully')
-      await dispatch(getBlogs({userId: id}))
-      await dispatch(getEverySingleBlogs())
+      toast.success("Post deleted successfully");
+      await dispatch(getBlogs({ userId: id }));
+      await dispatch(getEverySingleBlogs());
     } catch (error) {
-      toast.error('Something went wrong')
+      toast.error("Something went wrong");
     }
   };
-  const showDelete = !userId || userData?.user?.isAdmin
+  const showDelete = !userId || userData?.user?.isAdmin;
 
   const toggleFeature = async (blogId) => {
     try {
-      console.log(blogId, 'toggle Feature')
-      const response = await dispatch(toggleFeaturedBlog({blogId}))
-      console.log(response, 'toggle')
-      toast.success('Updated status successfully')
+      console.log(blogId, "toggle Feature");
+      const response = await dispatch(toggleFeaturedBlog({ blogId }));
+      console.log(response, "toggle");
+      if (response?.payload?.blog) {
+        toast.success("Updated status successfully");
+        await dispatch(getEverySingleBlogs())
+      } else toast.error('Failed to update status')
     } catch (error) {
-      toast.error('Something went wrong')
+      toast.error("Something went wrong");
     }
-  }
-  const blogsSelectedForList = !userId && userData?.user?.isAdmin? everySingleBlog : allBlogs;
+  };
+  const blogsSelectedForList =
+    !userId && userData?.user?.isAdmin ? everySingleBlog : allBlogs;
   return (
     <main className="p-10 pt-2 font-inter w-full max-h-[68vh] overflow-y-auto scrollbar-hidden">
       <div className="flex flex-col justify-start gap-6 mt-4">
