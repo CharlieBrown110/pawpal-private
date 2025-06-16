@@ -47,9 +47,9 @@ const PetAdoptionDetails = () => {
   }, [dispatch, postId]);
 
   return (
-    <div className="flex flex-col h-full w-full overflow-y-scroll scrollbar-hidden bg-[#fffae6] pt-36 px-14">
+    <div className="flex flex-col h-full w-full overflow-y-scroll scrollbar-hidden bg-[#fffae6] pt-36">
       {petDetails ? (
-        <>
+        <div className="px-14">
           <section className="flex w-full justify-start items-center">
             <Link
               to={"../adoption"}
@@ -68,11 +68,12 @@ const PetAdoptionDetails = () => {
             <CommentSection />
           </section>
 
-          <Footer/>
-        </>
+          
+        </div>
       ) : (
-        <h1 className="font-bold text-3xl">Loading...</h1>
+        <h1 className="font-bold text-3xl px-14">Loading...</h1>
       )}
+      <Footer/>
     </div>
   );
 };

@@ -58,7 +58,7 @@ const SingleComment = ({
               to={
                 isSameUser ? "/profile" : `/profile/${rootComment?.userId?._id}`
               }
-              className="font-bold text-lg"
+              className="font-bold text-lg hover:underline"
             >
               {rootComment?.userId?.name}
             </Link>

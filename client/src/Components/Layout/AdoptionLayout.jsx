@@ -2,16 +2,14 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 import StaticDataSegment from '../Adoption/StaticDataSegment'
 import AdoptionNavbar from '../Adoption/AdoptionNavbar'
-import Footer from '../Home/Footer'
 
 
 const AdoptionLayout = () => {
   return (
-    <main>
+    <main className='px-14'>
       <StaticDataSegment/>
       <AdoptionNavbar/>
-      <Outlet/>
-      <Footer/>
+      <Outlet/>      
     </main>
   )
 }
