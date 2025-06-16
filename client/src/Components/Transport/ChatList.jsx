@@ -4,11 +4,11 @@ import SingleChat from './SingleChat'
 const ChatList = ({ allChats, userData, postId }) => {
   console.log(allChats)
   return (
-    <div className='min-h-[360px] max-h-[360px] overflow-y-scroll scrollbar-hidden'>
+    <div className='min-h-[360px] max-h-[360px] overflow-y-scroll scrollbar-hidden flex flex-col-reverse'>
       {[...allChats]
-        .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         .map(singleChat => (
-          <SingleChat  {...singleChat} userData={userData} />
+          <SingleChat key={singleChat._id} {...singleChat} userData={userData} />
         ))}
     </div>
   )
