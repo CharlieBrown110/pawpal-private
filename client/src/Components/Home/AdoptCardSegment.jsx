@@ -4,11 +4,17 @@ import AdoptCard from './AdoptCard';
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import ScrollAnimatedCurve from '../Utils/ScrollAnimatedCurve';
+import { getAllPosts } from '@/Store/AdoptionPostSlice';
+import { useDispatch } from 'react-redux';
 
 const AdoptCardSegment = () => {
   const triggerOnce = true
   const { ref, inView } = useInView({ triggerOnce, threshold: 0.5 });
     useEffect(()=>console.log('adopt'))
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getAllPosts())
+  },[])
   return (
     <div className='w-full min-h-screen flex flex-col justify-start items-center pt-[5%] gap-[50px]'>
       <div className="w-[65%] h-[35%] flex gap-[10px] justify-center">

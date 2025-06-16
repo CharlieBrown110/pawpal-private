@@ -197,8 +197,8 @@ export const saveBlogPost = createAsyncThunk(
           formData,
           {
             headers: {
-              "Content-Type": "multipart/form-data", withCredentials:true
-            }, 
+              "Content-Type": "multipart/form-data"
+            }, withCredentials:true
           }
         );
 
@@ -225,8 +225,8 @@ export const saveBlogPost = createAsyncThunk(
         },
         {
           headers: {
-            "Content-Type": "application/json", withCredentials:true
-          },
+            "Content-Type": "application/json",
+          }, 
         }
       );
 
